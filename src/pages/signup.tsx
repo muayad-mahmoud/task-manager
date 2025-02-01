@@ -24,7 +24,7 @@ const Signup: React.FC = () => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             useUserStore.getState().setUser(userCredential.user);
-            navigate("/home");
+            navigate("/");
         } catch (error: unknown) {
             if((error as AuthError).code === "auth/email-already-in-use") {
                 toast.error("Email already in use");
