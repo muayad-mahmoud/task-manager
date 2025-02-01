@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import InputField from "../components/input_field";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { AuthError, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../stores/user_store";
+import { toast } from "react-toastify";
 
 const Signup: React.FC = () => {
     const navigate = useNavigate();
@@ -11,8 +12,8 @@ const Signup: React.FC = () => {
     const [password, setPassword] = useState("");
     useEffect(() => {
         const user = useUserStore.getState().user;
-        console.log("", user);
         if(user) {
+            toast.success("Successfully signed up!");
             navigate("/home");
         }
     }, [navigate])
@@ -24,8 +25,13 @@ const Signup: React.FC = () => {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             useUserStore.getState().setUser(userCredential.user);
             navigate("/home");
-        } catch (error) {
-            console.error(error);
+        } catch (error: unknown) {
+            if((error as AuthError).code === "auth/email-already-in-use") {
+                toast.error("Email already in use");
+            }
+            else {
+                toast.error("Something went wrong");
+            }
         }
     };
 
