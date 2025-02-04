@@ -13,7 +13,7 @@ const Login: React.FC = () => {
         const user = useUserStore.getState().user;
         if(user) {
             toast.success("Already Logged In");
-            navigate("/home");
+            navigate("/");
         }
     }, [navigate])
 

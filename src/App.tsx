@@ -7,6 +7,7 @@ import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import CreatePage from "./pages/create";
+import HomePage from "./pages/homepage";
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
     <Router>
       <ToastContainer  />
       <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<HomePage  />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup  />} />
         <Route path="/create" element={<CreatePage  />}/>

@@ -6,10 +6,12 @@ export enum Priority {
     High = 2
 }
 export type TaskDocument = {
+    id? : string;
     title?: string;
     description?: string;
     priority?: Priority;
     dueDate?: Date;
+    status?: string;
 }
 
 type documentStore = {
