@@ -1,8 +1,8 @@
-import { Priority } from "../stores/document_store";
+import { Priority, Status } from "../stores/document_store";
 
 export interface DropDownProps {
     name: string;
-    value: Priority;
+    value: Priority | Status;
     required: boolean;
     error: string;
     options: string[];

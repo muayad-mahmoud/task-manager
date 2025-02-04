@@ -8,6 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import CreatePage from "./pages/create";
 import HomePage from "./pages/homepage";
+import EditPage from "./pages/edit";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <ToastContainer  />
       <Routes>
         <Route path="/" element={<HomePage  />} />
+        <Route path="edit/:id" element={<EditPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup  />} />
         <Route path="/create" element={<CreatePage  />}/>

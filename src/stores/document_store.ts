@@ -5,23 +5,28 @@ export enum Priority {
     Medium = 1,
     High = 2
 }
+export enum Status {
+    Completed = 0,
+    Overdue = 1,
+    Pending = 2
+}
 export type TaskDocument = {
     id? : string;
     title?: string;
     description?: string;
     priority?: Priority;
     dueDate?: Date;
-    status?: string;
+    status?: Status;
 }
 
 type documentStore = {
-    document: TaskDocument;
+    document?: TaskDocument;
     setDocument: (document: TaskDocument) => void;
     updateDocument: (document: TaskDocument) => void;
 }
 
 export const useDocumentStore = create<documentStore>((set) => ({
-    document: { title: '', description: undefined, priority: Priority.Low, dueDate: undefined  },
+    document: undefined,
     setDocument: (document: TaskDocument) => set({ document }),
     updateDocument: (document: TaskDocument) => set({ document }),
   }));
