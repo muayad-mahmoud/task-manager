@@ -57,14 +57,16 @@ const HomePage: React.FC = () => {
         }
     }, [navigate])
     return (
-        <div className="h-screen w-screen grid grid-cols-3 gap-2 items-center justify-center">
-            {tasks.tasks.map((task) => {
-                return <TaskCard
-                task={task}
-                key={task.id}
-                handleOpenModal={handleOpenModal}
-                />;
-            })}
+        <div className="h-screen w-screen">
+            <div className="grid grid-cols-3 gap-2 items-center justify-center">
+                {tasks.tasks.map((task) => {
+                    return <TaskCard
+                    task={task}
+                    key={task.id}
+                    handleOpenModal={handleOpenModal}
+                    />;
+                })}
+            </div>
             <ConfirmationDialog
             isOpen={isOpen}
             onClose={handleCloseModal}

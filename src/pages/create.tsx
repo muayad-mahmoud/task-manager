@@ -7,7 +7,7 @@ import { Timestamp } from "@firebase/firestore";
 import DropDown from "../components/dropdown";
 import TimeStampPicker from "../components/timestamp_picker";
 import { validate } from "../helpers/validate";
-import { useDocumentStore } from "../stores/document_store";
+import { Priority, useDocumentStore } from "../stores/document_store";
 import { createTask } from "../helpers/task_crud";
 
 const CreatePage: React.FC = () => {
@@ -64,10 +64,10 @@ const CreatePage: React.FC = () => {
     const handleCreateTask = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const task = useDocumentStore.getState().document;
-        const validateObject = await validate(task, requiredFields, setFormErrors);
+        const validateObject = await validate(task!, requiredFields, setFormErrors);
 
         if (!validateObject) {
-            createTask(task).then(() => {
+            createTask(task!).then(() => {
                 toast.success("Task created successfully");
             }).catch(() => {
                 toast.error("Something went wrong");
@@ -80,7 +80,7 @@ const CreatePage: React.FC = () => {
             <InputField
                 placeholder="Title"
                 name="title"
-                value={document.title}
+                value={document !== undefined ? document.title : ""}
                 error={formErrors.title}
                 onChange={handleInputChange}
                 required={requiredFields.title}
@@ -88,14 +88,14 @@ const CreatePage: React.FC = () => {
             <InputField
                 placeholder="Description"
                 name="description"
-                value={document.description}
+                value={document !== undefined ? document.description : ""}
                 error={formErrors.description}
                 onChange={handleInputChange}
                 required={requiredFields.description}
             />
             <DropDown
                 name="priority"
-                value={document.priority!}
+                value={document?.priority ?? Priority.Low}
                 options={["Low", "Medium", "High"]}
                 required={requiredFields.priority}
                 error={formErrors.priority}
