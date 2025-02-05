@@ -6,10 +6,11 @@ import { useUserStore } from "../stores/user_store";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../components/confirmation_dialog";
-import { FaAngleDown, FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import InputField from "../components/input_field";
 import { QueryDocumentSnapshot } from "firebase/firestore";
 import { TaskDocument } from "../stores/types/document_store_types";
+import SortTasks from "../components/sort_component";
 
 const HomePage: React.FC = () => {
   const { tasks, setTasks } = useTasksStore();
@@ -121,47 +122,14 @@ const HomePage: React.FC = () => {
   return (
     <div className="h-screen flex flex-col gap-5 p-3">
       {/* Sorting Buttons */}
-      <div className="flex flex-row gap-2">
-        <button
-          className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2"
-          onClick={() => {
-            setOrderBy((prev) => ({
-              ...prev,
-              dueDate: prev.dueDate === "asc" ? "desc" : "asc",
-            }));
-            setOrderByDate(!orderByDate);
-            reloadTasks();
-          }}
-        >
-          <p>Order By Due</p>
-          <FaAngleDown className={`${orderByDate ? "rotate-180" : ""} transition-all duration-500`} />
-        </button>
-        <button
-          className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2"
-          onClick={() => {
-            setOrderBy((prev) => ({
-              ...prev,
-              priority: prev.priority === "asc" ? "desc" : "asc",
-            }));
-            setOrderByPriority(!orderByPriority);
-            reloadTasks();
-          }}
-        >
-          <p>Order By Priority</p>
-          <FaAngleDown className={`${orderByPriority ? "rotate-180" : ""} transition-all duration-500`} />
-        </button>
-        <button
-          className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2"
-          onClick={() => {
-            setOrderBy({ dueDate: "", priority: "" });
-            setOrderByDate(false);
-            setOrderByPriority(false);
-            reloadTasks();
-          }}
-        >
-          <p>Clear</p>
-        </button>
-      </div>
+      <SortTasks
+        orderByDate={orderByDate}
+        orderByPriority={orderByPriority}
+        setOrderBy={setOrderBy}
+        setOrderByDate={setOrderByDate}
+        setOrderByPriority={setOrderByPriority}
+        reloadTasks={reloadTasks}
+      />
 
       {/* Filter Section */}
       <div className="flex flex-row gap-2 items-center">
