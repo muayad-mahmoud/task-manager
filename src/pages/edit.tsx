@@ -148,8 +148,9 @@ const EditPage:React.FC = () => {
             }
             <button
             onClick={handleUpdateTask}
+            className="bg-gray-200 p-4 rounded-xl border-gray-400"
             >
-                Click me
+                Save Task
             </button>
         </div>
     );
