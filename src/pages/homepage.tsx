@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { TaskDocument } from "../stores/document_store";
 import ConfirmationDialog from "../components/confirmation_dialog";
 import { FaAngleDown } from "react-icons/fa";
+import InputField from "../components/input_field";
 
 const HomePage: React.FC = () => {
   const { tasks, setTasks } = useTasksStore();
@@ -20,6 +21,7 @@ const HomePage: React.FC = () => {
     dueDate: "",
     priority: "",
   });
+  const [filter, setFilter] = useState("")
   const navigate = useNavigate();
   const reloadTasks = () => {
     setIsReloading(true);
@@ -45,14 +47,23 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (isReloading) {
       const fetchData = async () => {
-        const acquiredTasks = await getTasks(orderBy);
-        setTasks(acquiredTasks);
+        if(filter !== ""){
+            const acquiredTasks = await getTasks(orderBy, filter);
+            setTasks(acquiredTasks);
+        }
+        else {
+            const acquiredTasks = await getTasks(orderBy);
+            setTasks(acquiredTasks);
+        }
       };
       fetchData();
       setIsReloading(false);
     }
   }, [isReloading]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFilter(e.target.value);
+  }
   const handleDeleteClick = async (task: TaskDocument) => {
     await deleteTask(task).then(() => {
       setIsReloading(true);
@@ -118,6 +129,28 @@ const HomePage: React.FC = () => {
           }}
         >
           <p>Clear</p>
+        </button>
+      </div>
+      <div className="flex flex-row gap-2 items-center">
+        <InputField 
+          placeholder="Filter by title"
+          value={filter}
+          onChange={handleInputChange}
+        />
+        <button
+        className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2 cursor-pointer"
+        onClick={()=> setIsReloading(true)}
+        >
+            Search
+        </button>
+        <button
+        className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2 cursor-pointer"
+        onClick={()=> {
+            setFilter("");
+            setIsReloading(true);
+        }}
+        >
+            Reset
         </button>
       </div>
       <div className="grid grid-cols-4 gap-2 items-center justify-center h-1/2">

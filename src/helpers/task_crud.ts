@@ -25,7 +25,7 @@ export const createTask = async (task: TaskDocument): Promise<void> => {
 };
 
 
-export const getTasks = async (sortingObject?: {[key: string]: "asc" | "desc" | ""}): Promise<TaskDocument[]> => {
+export const getTasks = async (sortingObject?: {[key: string]: "asc" | "desc" | ""}, filter?: string): Promise<TaskDocument[]> => {
   const sortingCriteria: ReturnType<typeof orderBy>[] = [];
   
   if (sortingObject) {
@@ -35,7 +35,7 @@ export const getTasks = async (sortingObject?: {[key: string]: "asc" | "desc" | 
       }
     })
   }
-  const taskQuery = query(collection(db, "tasks"), ...sortingCriteria);
+  const taskQuery = query(collection(db, "tasks"), ...sortingCriteria) 
   const tasks = await getDocs(taskQuery);
   return tasks.docs.map(doc => {
     const data = doc.data();
@@ -48,7 +48,7 @@ export const getTasks = async (sortingObject?: {[key: string]: "asc" | "desc" | 
       status: data.status
     }
     return newTask;
-  });
+  }).filter(task => task.title!.toLowerCase().includes(filter !== undefined ? filter.toLowerCase() : ""));;
 };
 
 export const getTask = async (id: string): Promise<TaskDocument> => {
