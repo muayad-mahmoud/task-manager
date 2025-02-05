@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
     }, [navigate])
     return (
         <div className="h-screen w-screen">
-            <div className="grid grid-cols-3 gap-2 items-center justify-center">
+            <div className="grid grid-cols-4 gap-2 items-center justify-center border h-1/2">
                 {tasks.tasks.map((task) => {
                     return <TaskCard
                     task={task}

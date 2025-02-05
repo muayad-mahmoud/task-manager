@@ -23,6 +23,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
         <div className={`
         relative border rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col items-center justify-center
         ${overDue ? "bg-red-100" : "bg-white"}
+        col-span-1
         `}>
             <div>
                 <div className="absolute top-2 right-2 flex flex-row gap-4">
