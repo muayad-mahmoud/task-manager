@@ -1,50 +1,61 @@
-# React + TypeScript + Vite
+# Task Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+A simple task manager with CRUD operations built using React and TypeScript. It supports adding, deleting, editing, and loading tasks from Firestore. Tasks can be marked as completed, and overdue tasks are indicated accordingly.
 
-Currently, two official plugins are available:
+## Features
+- Create, Read, Update, and Delete (CRUD) tasks
+- Mark tasks as completed
+- Overdue task indication
+- Firebase Firestore integration
+- Global state management using Zustand
+- Component-level state management using useState
+- Styled with TailwindCSS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+### Prerequisites
+- Node.js installed
+- Vite installed
+- Firebase credentials
 
-## Expanding the ESLint configuration
+### Steps
+1. Clone the repository:
+   ```sh
+   git clone <repository_url>
+   cd <project_directory>
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Set up environment variables:
+   - Copy the `.env.example` file to `.env`:
+     ```sh
+     cp .env.example .env
+     ```
+   - Update the `.env` file with your Firebase credentials:
+     ```sh
+     VITE_API_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+     VITE_AUTH_DOMAIN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+     VITE_PROJECT_ID="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+     VITE_STORAGE_BUCKET="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+     VITE_MESSAGE_SENDER_ID="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+     VITE_APP_ID="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+     VITE_MEASUREMENT_ID="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+     ```
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Firestore Indexes
+This project requires the following indexes in Firestore:
+- `dueDate` Descending, `priority` Ascending, `__name__` Ascending
+- `dueDate` Ascending, `priority` Ascending, `__name__` Ascending
+- `dueDate` Descending, `priority` Descending, `__name__` Descending
+- `dueDate` Ascending, `priority` Descending, `__name__` Descending
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Running the Project
+Start the development server using Vite:
+```sh
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## License
+This project is licensed under the MIT License.
