@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, documentId, getDocs, query, Timestamp, updateDoc, where } from "@firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, documentId, getDocs, orderBy, query, Timestamp, updateDoc, where } from "@firebase/firestore";
 import { db } from "../firebase";
 import { Priority, Status, TaskDocument } from "../stores/document_store";
 
@@ -25,8 +25,17 @@ export const createTask = async (task: TaskDocument): Promise<void> => {
 };
 
 
-export const getTasks = async (): Promise<TaskDocument[]> => {
-  const tasks = await getDocs(collection(db, "tasks"));
+export const getTasks = async (sortingObject?: {[key: string]: "asc" | "desc" | ""}): Promise<TaskDocument[]> => {
+  const sortingCriteria: ReturnType<typeof orderBy>[] = [];
+  if (sortingObject) {
+    Object.entries(sortingObject).map(([key, value]) => {
+      if(value !== "") {
+        sortingCriteria.push(orderBy(key, value));
+      }
+    })
+  }
+  const taskQuery = query(collection(db, "tasks"), ...sortingCriteria);
+  const tasks = await getDocs(taskQuery);
   return tasks.docs.map(doc => {
     const data = doc.data();
     const newTask: TaskDocument = {

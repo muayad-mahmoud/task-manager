@@ -12,6 +12,10 @@ const HomePage: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isReloading, setIsReloading] = useState(true);
     const [taskToDelete, setTaskToDelete] = useState<TaskDocument | null>(null);
+    const [orderBy, setOrderBy] = useState<{[key: string]: "asc" | "desc" | ""}>({
+        dueDate: "",
+        priority: "",
+    });
     const navigate = useNavigate();
     
     const handleOpenModal = (taskToDelete: TaskDocument | null) => {
@@ -33,7 +37,7 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         if(isReloading) {
             const fetchData = async () => {
-                const acquiredTasks = await getTasks();
+                const acquiredTasks = await getTasks(orderBy);
                 setTasks(acquiredTasks);
             }
             fetchData();
@@ -58,6 +62,28 @@ const HomePage: React.FC = () => {
     }, [navigate])
     return (
         <div className="h-screen w-screen">
+            <button
+            onClick={() => {
+                setOrderBy((prev) => ({
+                    ...prev,
+                    dueDate: prev.dueDate === "asc" ? "desc" : "asc",
+                }))
+                setIsReloading(true);
+            }}
+            >
+                Order By Due
+            </button>
+            <button
+            onClick={() => {
+                setOrderBy((prev) => ({
+                    ...prev,
+                    priority: prev.priority === "asc" ? "desc" : "asc",
+                }))
+                setIsReloading(true);
+            }}
+            >
+                Order By Priority
+            </button>
             <div className="grid grid-cols-4 gap-2 items-center justify-center border h-1/2">
                 {tasks.tasks.map((task) => {
                     return <TaskCard
