@@ -7,11 +7,14 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { TaskDocument } from "../stores/document_store";
 import ConfirmationDialog from "../components/confirmation_dialog";
+import { FaAngleDown } from "react-icons/fa";
 const HomePage: React.FC = () => {
     const { tasks, setTasks } = useTasksStore();
     const [isOpen, setIsOpen] = useState(false);
     const [isReloading, setIsReloading] = useState(true);
     const [taskToDelete, setTaskToDelete] = useState<TaskDocument | null>(null);
+    const [orderByDate, setOrderByDate] = useState(false);
+    const [orderByPriority, setOrderByPriority] = useState(false);
     const [orderBy, setOrderBy] = useState<{[key: string]: "asc" | "desc" | ""}>({
         dueDate: "",
         priority: "",
@@ -61,30 +64,56 @@ const HomePage: React.FC = () => {
         }
     }, [navigate])
     return (
-        <div className="h-screen w-screen">
-            <button
-            onClick={() => {
-                setOrderBy((prev) => ({
-                    ...prev,
-                    dueDate: prev.dueDate === "asc" ? "desc" : "asc",
-                }))
-                setIsReloading(true);
-            }}
-            >
-                Order By Due
-            </button>
-            <button
-            onClick={() => {
-                setOrderBy((prev) => ({
-                    ...prev,
-                    priority: prev.priority === "asc" ? "desc" : "asc",
-                }))
-                setIsReloading(true);
-            }}
-            >
-                Order By Priority
-            </button>
-            <div className="grid grid-cols-4 gap-2 items-center justify-center border h-1/2">
+        <div className="h-screen w-screen flex flex-col gap-5 p-3">
+            <div className="flex flex-row gap-2">
+                <button
+                className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2"
+                onClick={() => {
+                    setOrderBy((prev) => ({
+                        ...prev,
+                        dueDate: prev.dueDate === "asc" ? "desc" : "asc",
+                    }))
+                    setIsReloading(true);
+                    setOrderByDate(!orderByDate);
+                }}
+                >
+                    <p>Order By Due</p>
+                    <FaAngleDown  
+                    className={`${orderByDate ? "rotate-180" : ""} transition-all duration-500`}
+                    />
+                </button>
+                <button
+                className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2"
+                onClick={() => {
+                    setOrderBy((prev) => ({
+                        ...prev,
+                        priority: prev.priority === "asc" ? "desc" : "asc",
+                    }))
+                    setIsReloading(true);
+                    setOrderByPriority(!orderByPriority);
+                }}
+                >
+                    <p>Order By Priority</p>
+                    <FaAngleDown  
+                    className={`${orderByPriority ? "rotate-180" : ""} transition-all duration-500`}
+                    />
+                </button>
+                <button
+                className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2"
+                onClick={() => {
+                    setOrderBy({
+                        dueDate: "",
+                        priority: "",
+                    })
+                    setIsReloading(true);
+                    setOrderByDate(false)
+                    setOrderByPriority(false);
+                }}
+                >
+                    <p>Clear</p>
+                </button>
+            </div>
+            <div className="grid grid-cols-4 gap-2 items-center justify-center h-1/2">
                 {tasks.tasks.map((task) => {
                     return <TaskCard
                     task={task}

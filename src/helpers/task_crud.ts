@@ -27,6 +27,7 @@ export const createTask = async (task: TaskDocument): Promise<void> => {
 
 export const getTasks = async (sortingObject?: {[key: string]: "asc" | "desc" | ""}): Promise<TaskDocument[]> => {
   const sortingCriteria: ReturnType<typeof orderBy>[] = [];
+  
   if (sortingObject) {
     Object.entries(sortingObject).map(([key, value]) => {
       if(value !== "") {
