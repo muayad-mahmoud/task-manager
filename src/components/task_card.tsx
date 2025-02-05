@@ -45,7 +45,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
     }
     return (
         <div className={`
-        relative border rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col items-center justify-center
+        relative border rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 h-96 flex flex-col items-center justify-center
         ${overDue && !taskCompleted ? "bg-red-100" : ""}
         ${taskCompleted ? "bg-green-200" : ""}
         col-span-1

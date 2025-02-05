@@ -82,7 +82,7 @@ const HomePage: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="h-screen w-screen flex flex-col gap-5 p-3">
+    <div className="h-screen flex flex-col gap-5 p-3">
       <div className="flex flex-row gap-2">
         <button
           className="bg-gray-100 border border-gray-200 p-2 rounded flex flex-row items-center gap-2"
@@ -153,7 +153,7 @@ const HomePage: React.FC = () => {
             Reset
         </button>
       </div>
-      <div className="grid grid-cols-4 gap-2 items-center justify-center h-1/2">
+      <div className="grid grid-cols-3 gap-2 items-center justify-center">
         {tasks.tasks.map((task) => {
           return (
             <TaskCard
