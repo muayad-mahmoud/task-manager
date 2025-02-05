@@ -1,13 +1,8 @@
 import { create } from "zustand"
-import { TaskDocument } from "./document_store";
+import { taskStore } from "./types/task_store_types";
+import { TaskDocument } from "./types/document_store_types";
 
-type TasksDocuments = {
-    tasks: TaskDocument[]
-}
-type taskStore = {
-    tasks: TasksDocuments;
-    setTasks: (tasks: TaskDocument[]) => void;
-}
+
 
 export const useTasksStore = create<taskStore>((set) => ({
     tasks: { tasks: [] },

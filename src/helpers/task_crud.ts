@@ -1,6 +1,8 @@
 import { addDoc, collection, deleteDoc, doc, documentId, getDocs, limit, orderBy, query, QueryDocumentSnapshot, startAfter, Timestamp, updateDoc, where } from "@firebase/firestore";
 import { db } from "../firebase";
-import { Priority, Status, TaskDocument } from "../stores/document_store";
+import { TaskDocument } from "../stores/types/document_store_types";
+import { Priority, Status } from "../stores/types/enums";
+
 
 export const createTask = async (task: TaskDocument): Promise<void> => {
   const priorityValue = Priority[(task.priority as unknown) as keyof typeof Priority];

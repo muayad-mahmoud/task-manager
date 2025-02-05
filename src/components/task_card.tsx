@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { TaskCardProps } from "../types/task_card";
-import { Priority, Status, useDocumentStore } from "../stores/document_store";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +7,8 @@ import StatusComponent from "./status-component";
 import { FaCheckCircle } from "react-icons/fa";
 import { UpdateTask as updateTask } from "../helpers/task_crud";
 import { toast } from "react-toastify";
+import { useDocumentStore } from "../stores/document_store";
+import { Status, Priority } from "../stores/types/enums";
 const TaskCard: React.FC<TaskCardProps> = ({
     task,
     handleOpenModal,

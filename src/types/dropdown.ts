@@ -1,4 +1,5 @@
-import { Priority, Status } from "../stores/document_store";
+import { Priority, Status } from "../stores/types/enums";
+
 
 export interface DropDownProps {
     name: string;

@@ -1,4 +1,4 @@
-import { Status } from "../stores/document_store";
+import { Status } from "../stores/types/enums";
 
 const StatusComponent: React.FC<{
     status: Status;

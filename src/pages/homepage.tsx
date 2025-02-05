@@ -5,11 +5,11 @@ import TaskCard from "../components/task_card";
 import { useUserStore } from "../stores/user_store";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { TaskDocument } from "../stores/document_store";
 import ConfirmationDialog from "../components/confirmation_dialog";
 import { FaAngleDown, FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import InputField from "../components/input_field";
 import { QueryDocumentSnapshot } from "firebase/firestore";
+import { TaskDocument } from "../stores/types/document_store_types";
 
 const HomePage: React.FC = () => {
   const { tasks, setTasks } = useTasksStore();

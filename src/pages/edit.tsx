@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Priority, Status, useDocumentStore } from "../stores/document_store";
+
 import InputField from "../components/input_field";
 import Dropdown from "../components/dropdown";
 import { getTask, UpdateTask as updateTask } from "../helpers/task_crud";
@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Timestamp } from "firebase/firestore";
 import { validate } from "../helpers/validate";
+import { useDocumentStore } from "../stores/document_store";
+import { Priority, Status } from "../stores/types/enums";
 
 
 const EditPage:React.FC = () => {

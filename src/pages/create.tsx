@@ -7,8 +7,9 @@ import { Timestamp } from "@firebase/firestore";
 import DropDown from "../components/dropdown";
 import TimeStampPicker from "../components/timestamp_picker";
 import { validate } from "../helpers/validate";
-import { Priority, useDocumentStore } from "../stores/document_store";
 import { createTask } from "../helpers/task_crud";
+import { useDocumentStore } from "../stores/document_store";
+import { Priority } from "../stores/types/enums";
 
 const CreatePage: React.FC = () => {
     const navigate = useNavigate();
