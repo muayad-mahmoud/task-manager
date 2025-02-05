@@ -47,7 +47,7 @@ const Dropdown: React.FC<DropDownProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200">
+        <div className="absolute left-[100%] mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 z-[999999]">
           <ul className="py-2 text-gray-700">
             {
               options.map((option, index) => (
