@@ -21,7 +21,9 @@ const HomePage: React.FC = () => {
     priority: "",
   });
   const navigate = useNavigate();
-
+  const reloadTasks = () => {
+    setIsReloading(true);
+  }
   const handleOpenModal = (taskToDelete: TaskDocument | null) => {
     setTaskToDelete(taskToDelete);
     setIsOpen(true);
@@ -125,6 +127,7 @@ const HomePage: React.FC = () => {
               task={task}
               key={task.id}
               handleOpenModal={handleOpenModal}
+              triggerReload={reloadTasks}
             />
           );
         })}
