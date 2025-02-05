@@ -107,6 +107,7 @@ const CreatePage: React.FC = () => {
             />
             <button
                 onClick={handleCreateTask}
+                className="bg-gray-200 p-4 rounded-xl border-gray-400"
             >
                 Add Task
             </button>

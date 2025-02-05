@@ -45,7 +45,9 @@ const Login: React.FC = () => {
                 obsecure
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleLogin}>
+            <button 
+            className="bg-gray-200 p-4 rounded-xl border-gray-400"
+            onClick={handleLogin}>
                 Login
             </button>
         </div>
