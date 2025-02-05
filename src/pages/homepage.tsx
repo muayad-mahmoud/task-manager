@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../components/confirmation_dialog";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import InputField from "../components/input_field";
 import { QueryDocumentSnapshot } from "firebase/firestore";
 import { TaskDocument } from "../stores/types/document_store_types";
 import SortTasks from "../components/sort_component";
+import FilterInput from "../components/filter_component";
 
 const HomePage: React.FC = () => {
   const { tasks, setTasks } = useTasksStore();
@@ -111,6 +111,15 @@ const HomePage: React.FC = () => {
     setFilter(e.target.value);
   };
 
+  const handleSearch = () => {
+    setIsReloading(true);
+  };
+
+  const handleReset = () => {
+    setFilter('');
+    setIsReloading(true);
+  };
+
   // Handler to change the page size limit and reload the tasks.
   const handleLimitChange = (newLimit: number) => {
     if (newLimit !== limit) {
@@ -132,24 +141,12 @@ const HomePage: React.FC = () => {
       />
 
       {/* Filter Section */}
-      <div className="flex flex-row gap-2 items-center">
-        <InputField placeholder="Filter by title" value={filter} onChange={handleInputChange} />
-        <button
-          className="bg-gray-100 border border-gray-200 p-2 rounded cursor-pointer"
-          onClick={() => setIsReloading(true)}
-        >
-          Search
-        </button>
-        <button
-          className="bg-gray-100 border border-gray-200 p-2 rounded cursor-pointer"
-          onClick={() => {
-            setFilter("");
-            setIsReloading(true);
-          }}
-        >
-          Reset
-        </button>
-      </div>
+      <FilterInput  
+      value={filter}
+      onChange={handleInputChange}
+      onSearch={handleSearch}
+      onReset={handleReset}
+      />
 
       {/* Page Size Limit Buttons */}
       <div className="flex flex-row gap-2 items-center">
