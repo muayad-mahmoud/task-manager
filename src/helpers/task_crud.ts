@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, documentId, getDocs, orderBy, query, Timestamp, updateDoc, where } from "@firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, documentId, getDocs, limit, orderBy, query, QueryDocumentSnapshot, startAfter, Timestamp, updateDoc, where } from "@firebase/firestore";
 import { db } from "../firebase";
 import { Priority, Status, TaskDocument } from "../stores/document_store";
 
@@ -25,30 +25,50 @@ export const createTask = async (task: TaskDocument): Promise<void> => {
 };
 
 
-export const getTasks = async (sortingObject?: {[key: string]: "asc" | "desc" | ""}, filter?: string): Promise<TaskDocument[]> => {
-  const sortingCriteria: ReturnType<typeof orderBy>[] = [];
+export const getTasks = async (
+  sortingObject?: { [key: string]: "asc" | "desc" | "" },
+  filter?: string,
+  pageSize: number = 10,
+  lastVisible?: QueryDocumentSnapshot
+): Promise<{ tasks: TaskDocument[], lastDoc: QueryDocumentSnapshot | null }> => {
   
+  const sortingCriteria: ReturnType<typeof orderBy>[] = [];
+
   if (sortingObject) {
-    Object.entries(sortingObject).map(([key, value]) => {
-      if(value !== "") {
+    Object.entries(sortingObject).forEach(([key, value]) => {
+      if (value !== "") {
         sortingCriteria.push(orderBy(key, value));
       }
-    })
+    });
   }
-  const taskQuery = query(collection(db, "tasks"), ...sortingCriteria) 
-  const tasks = await getDocs(taskQuery);
-  return tasks.docs.map(doc => {
+
+  let taskQuery = query(collection(db, "tasks"), ...sortingCriteria, limit(pageSize));
+
+  // Apply pagination
+  if (lastVisible) {
+    taskQuery = query(taskQuery, startAfter(lastVisible));
+  }
+
+  const tasksSnapshot = await getDocs(taskQuery);
+
+  const taskList: TaskDocument[] = tasksSnapshot.docs.map((doc) => {
     const data = doc.data();
-    const newTask: TaskDocument = {
+    return {
       id: doc.id,
       title: data.title,
       description: data.description,
       priority: data.priority,
       dueDate: new Date((data.dueDate as unknown as Timestamp).seconds * 1000),
-      status: data.status
-    }
-    return newTask;
-  }).filter(task => task.title!.toLowerCase().includes(filter !== undefined ? filter.toLowerCase() : ""));;
+      status: data.status,
+    };
+  }).filter(task => 
+    task.title!.toLowerCase().includes(filter ? filter.toLowerCase() : "")
+  );
+
+  // Get the last document for next pagination call
+  const lastDoc = tasksSnapshot.docs.length > 0 ? tasksSnapshot.docs[tasksSnapshot.docs.length - 1] : null;
+
+  return { tasks: taskList, lastDoc };
 };
 
 export const getTask = async (id: string): Promise<TaskDocument> => {
